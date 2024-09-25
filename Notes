@@ -30,17 +30,16 @@ Build up distribution of orders according to reasons for failure: cancellations 
 - Separate the ids of before and after cancelations and then check the order_status_key on both sides.
 
 
+
+By first analysing cancelation orders before and after drivers were assigned it is evident that most cancelations occur before even the driver is assigned. (73.7%)
+
 is_driver_assigned_key
 0    7902
 1    2814
 
-By first analysing cancelation orders before and after drivers were assigned it is evident that most cancelations occur before even the driver is assigned. (73.7%)
+
+Secondly, by analysing, in the cases where the driver was assigned, whether the cancelation was by the client or by the system it is evident that the clients cancel more, making up almost all cancelations (99.9%)
 
 order_status_key
 4    2811
 9       3
-
-Secondly, by analysing, in the cases where the driver was assigned, whether the cancelation was by the client or by the system it is evident that the clients cancel more, making up almost all cancelations (99.9%)
-
-
-
