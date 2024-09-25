@@ -1,0 +1,46 @@
+
+Data frames info
+
+order_datetime - time of the order
+origin_longitude - longitude of the order
+origin_latitude - latitude of the order
+m_order_eta - time before order arrival
+order_gk - order number
+order_status_key - status, an enumeration consisting of the following mapping:
+4 - cancelled by client,
+9 - cancelled by system, i.e., a reject
+is_driver_assigned_key - whether a driver has been assigned
+cancellation_time_in_seconds - how many seconds passed before cancellation
+
+
+The data_offers data set is a simple map with 2 columns:
+
+order_gk - order number, associated with the same column from the orders data set
+offer_id - ID of an offer
+
+
+
+ASSIGNMENT 1:
+Build up distribution of orders according to reasons for failure: cancellations before and after driver assignment, and reasons for order rejection. Analyse the resulting plot. Which category has the highest number of orders?
+
+1- Cancelations before and after driver assignment: check column is_driver_assigned_key (1 was assigned, 2 was not assigned)
+2- Reasons for order rejection: check column order_status_key (4 cancelled by client, 9 cancelled by system)
+
+3- Two plots. In case where canceled before assignment was it canceled by client or system? Same for the case where after assignment.
+- Separate the ids of before and after cancelations and then check the order_status_key on both sides.
+
+
+is_driver_assigned_key
+0    7902
+1    2814
+
+By first analysing cancelation orders before and after drivers were assigned it is evident that most cancelations occur before even the driver is assigned. (73.7%)
+
+order_status_key
+4    2811
+9       3
+
+Secondly, by analysing, in the cases where the driver was assigned, whether the cancelation was by the client or by the system it is evident that the clients cancel more, making up almost all cancelations (99.9%)
+
+
+
