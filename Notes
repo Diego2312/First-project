@@ -10,7 +10,7 @@ order_status_key - status, an enumeration consisting of the following mapping:
 4 - cancelled by client,
 9 - cancelled by system, i.e., a reject
 is_driver_assigned_key - whether a driver has been assigned
-cancellation_time_in_seconds - how many seconds passed before cancellation
+cancellations_time_in_seconds - how many seconds passed before cancellation
 
 
 The data_offers data set is a simple map with 2 columns:
@@ -23,23 +23,143 @@ offer_id - ID of an offer
 ASSIGNMENT 1:
 Build up distribution of orders according to reasons for failure: cancellations before and after driver assignment, and reasons for order rejection. Analyse the resulting plot. Which category has the highest number of orders?
 
-1- Cancelations before and after driver assignment: check column is_driver_assigned_key (1 was assigned, 2 was not assigned)
+1- Cancellations before and after driver assignment: check column is_driver_assigned_key (1 was assigned, 2 was not assigned)
 2- Reasons for order rejection: check column order_status_key (4 cancelled by client, 9 cancelled by system)
 
 3- Two plots. In case where canceled before assignment was it canceled by client or system? Same for the case where after assignment.
-- Separate the ids of before and after cancelations and then check the order_status_key on both sides.
+- Separate the ids of before and after cancellations and then check the order_status_key on both sides.
 
 
 
-By first analysing cancelation orders before and after drivers were assigned it is evident that most cancelations occur before even the driver is assigned. (73.7%)
+By first analysing cancellation orders before and after drivers were assigned cancellations occur before the driver is even assigned. (73.7%)
 
 is_driver_assigned_key
 0    7902
 1    2814
 
 
-Secondly, by analysing, in the cases where the driver was assigned, whether the cancelation was by the client or by the system it is evident that the clients cancel more, making up almost all cancelations (99.9%)
+And analysing who cancels the most, the clients are the majority (68.2%)
+
+order_status_key
+4    7307
+9    3409
+
+
+Secondly in the cases where the driver was assigned, whether the cancellation was by the client or by the system it is evident that the clients cancel more, making up almost all cancellations (99.9%)
 
 order_status_key
 4    2811
 9       3
+
+
+And now when the drivers were not assigned, the cancellations are similar (56.9%/43.1%)
+
+order_status_key
+4    4496
+9    3406
+
+
+
+So it is evident that the main source of cancellations is by clients, specifically more than drivers after the driver has been assigned
+
+
+
+
+
+ASSIGNMENT 2:
+
+Plot the distribution of failed orders by hours. Is there a trend that certain hours have an abnormally high proportion of one category or another? What hours are the biggest fails? How can this be explained?
+
+
+1-Failed orders by hour. How many orders fail each hour. Every order has an hour and if it has failed. So I need a data set/series? with number of cancellations(row) and each hour(columns)
+
+1- To do this create a new columns with only the hour element of the values in order_datetime and count the values in these columns
+
+We then realize that most cancellations occur at 8AM and are least common at 5AM
+
+hour
+08    1082
+21     846
+23     836
+22     716
+00     683
+02     555
+17     541
+03     513
+01     471
+20     469
+07     447
+15     439
+18     414
+09     412
+13     366
+16     356
+19     317
+12     256
+14     256
+11     193
+10     170
+06     159
+04     152
+05      67
+
+
+
+ASSIGNMENT 3:
+
+Plot the average time to cancellation with and without driver, by the hour. If there are any outliers in the data, it would be better to remove them. Can we draw any conclusions from this plot?
+
+
+1- Average time to cancellation per hour
+    - With driver
+    - Without driver
+
+
+1- First filter the data frame into the columns is_driver_assigned_key, cancellation_time_in_seconds and order_date_time
+
+- Useful to use previous df which already contains the order hours
+
+2- Then separate the df into two. One in which the the driver was a assigned and another not.
+
+3- For both dfs, use the groupby() and .mean() to find the hourly time to cancellation.
+
+4- Concatenate both dfs
+
+               0           1
+hour
+00    111.557047  293.616667
+01     98.132420  247.715909
+02    106.438819  303.307692
+03    104.361607  292.640625
+04     90.000000  243.219512
+05    121.800000  314.400000
+06    124.955224  272.553191
+07    112.628049  188.891026
+08    120.702179  189.025478
+09    120.000000  216.493590
+10     74.607843  197.860759
+11     77.945455  258.423423
+12     93.283019  240.686869
+13    103.993243  248.541667
+14     98.415094  235.618557
+15    114.639535  206.349650
+16    129.216783  220.465649
+17    111.533040  248.125749
+18     98.088608  268.082090
+19    112.522124  198.741667
+20    110.086957  206.692982
+21    113.959821  214.460784
+22    104.858896  232.080537
+23    121.756614  284.557692
+
+Analysing the df, firstly we observe that the cancellations are quicker when the driver is not assigned.
+Secondly we can find that at 10 and 11 AM, whenever the drivers were not assigned, the cancellations were the quickest.
+Lastly at 5AM, when the driver is assigned, we have the longest time to cancellation
+
+
+
+ASSIGNMENT 4
+
+Plot the distribution of average ETA by hours. How can this plot be explained?
+
+
