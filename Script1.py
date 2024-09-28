@@ -52,10 +52,9 @@ df2_filtered_sorted = df2_filtered.sort_values(["hour"]) #Sorted by hour
 
 df2_filtered_hour_count = df2_filtered_sorted["hour"].value_counts() #Counts how many times each hour is present in the df.
 
-df2_filtered_hour_count_sorted = df2_filtered_hour_count.sort_index(ascending=False) #Sorted by hour decreasing. In this case used sort_index since we want to sort by the index and not the values.
+df2_final = df2_filtered_hour_count.sort_index(ascending=False) #Sorted by hour decreasing. In this case used sort_index since we want to sort by the index and not the values.
 
 #Plot
-
 
 
 
@@ -88,7 +87,7 @@ df3_1_avgs = df3_1_avgs.to_frame()
 df3_1_avgs = df3_1_avgs.rename(columns={"cancellations_time_in_seconds": "1"})
 
 
-df3_avgs = pd.concat([df3_0_avgs, df3_1_avgs], axis=1) #Concatenating both dataframes
+df3_final = pd.concat([df3_0_avgs, df3_1_avgs], axis=1) #Concatenating both dataframes
                                                        #Here the concat would usually concatenate vertically, but we can choose horizontally by setting axis=1
 
 
@@ -96,3 +95,25 @@ df3_avgs = pd.concat([df3_0_avgs, df3_1_avgs], axis=1) #Concatenating both dataf
 
 
 #df3_1_out = df3_1.groupby(["hour"])["cancellations_time_in_seconds"].outliers()
+
+#Assignment 4
+
+# Filter df to m_order_eta and hour
+
+df4 = df_orders.copy()
+
+df4["hour"] = df4["order_datetime"].str.split(":").str[0] #Create new column with hours
+
+df4_filtered =df4.loc[0:, ["order_gk", "m_order_eta", "hour"]] #df filtered
+
+#Group by hour and compute avg eta. I need to handle NaN. avg if only non NaN values
+
+#Handle all NaN values by setting them equal to zero
+
+df4_filtered["m_order_eta"] = df4_filtered["m_order_eta"].apply(lambda x: 0 if pd.isna(x) else x) #NaN equals 0
+
+df4_gp_avg = df4_filtered.groupby(["hour"])["m_order_eta"].mean() #group hour and avg ETA
+
+df4_final = df4_gp_avg.to_frame()
+
+

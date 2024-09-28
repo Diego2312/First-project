@@ -12,9 +12,7 @@ order_status_key - status, an enumeration consisting of the following mapping:
 is_driver_assigned_key - whether a driver has been assigned
 cancellations_time_in_seconds - how many seconds passed before cancellation
 
-
 The data_offers data set is a simple map with 2 columns:
-
 order_gk - order number, associated with the same column from the orders data set
 offer_id - ID of an offer
 
@@ -61,8 +59,6 @@ order_status_key
 
 
 So it is evident that the main source of cancellations is by clients, specifically more than drivers after the driver has been assigned
-
-
 
 
 
@@ -162,4 +158,36 @@ ASSIGNMENT 4
 
 Plot the distribution of average ETA by hours. How can this plot be explained?
 
+
+1- ETA average by hours.
+
+      m_order_eta
+hour
+00      63.939971
+01      60.675159
+02      54.953153
+03      48.417154
+04      80.828947
+05     153.402985
+06     126.264151
+07     203.588367
+08     184.833641
+09     191.172330
+10     165.229412
+11     224.849741
+12     170.460938
+13     140.336066
+14     146.953125
+15     148.143508
+16     163.356742
+17     160.438078
+18     135.678744
+19     139.993691
+20      72.944563
+21      40.251773
+22      77.568436
+23      76.214115
+
+
+Higher ETA from 5 AM to 7PM. Highest at 7AM and 11AM.
 
